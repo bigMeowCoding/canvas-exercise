@@ -1,4 +1,6 @@
 import {exercise, helloCanvas} from "./demos/base";
 import {drawClock} from "./demos/clock";
 
-drawClock()
+setInterval(()=> {
+    drawClock()
+},1000)
