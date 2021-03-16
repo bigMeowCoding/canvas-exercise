@@ -27,7 +27,7 @@ function drawPointer(
     second = date.getSeconds();
   let hour = date.getHours();
   hour = hour > 12 ? hour - 12 : hour;
-  console.log(second)
+  console.log(second);
   _drawClock(context, canvas, hour * 5, true);
   _drawClock(context, canvas, minutes);
   _drawClock(context, canvas, second);
@@ -44,6 +44,7 @@ export function drawClock() {
   if (!context) {
     return;
   }
+  context.clearRect(0, 0, canvas.width, canvas.height);
   drawCirCle(context, canvas);
   drawNumerals(context, canvas);
   drawPointer(context, canvas);
@@ -60,9 +61,9 @@ function _drawClock(
   context.moveTo(canvas.width / 2, canvas.height / 2);
   context.lineTo(
     canvas.width / 2 +
-      Math.cos( Math.PI/2 - Math.PI * 2 * times / 60) * radius,
+      Math.cos(Math.PI / 2 - (Math.PI * 2 * times) / 60) * radius,
     canvas.height / 2 -
-      Math.sin( Math.PI/2 - Math.PI * 2 * times / 60) * radius
+      Math.sin(Math.PI / 2 - (Math.PI * 2 * times) / 60) * radius
   );
   context.stroke();
 }
