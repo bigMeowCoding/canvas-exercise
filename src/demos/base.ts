@@ -5,7 +5,14 @@ function drawStarSky(count: number) {
   if (!context) {
     return;
   }
-  const skyStyle = context.createLinearGradient(0, 0, 0, canvas.height);
+  const skyStyle = context.createRadialGradient(
+    canvas.width / 2,
+    canvas.height,
+    0,
+    canvas.width / 2,
+    canvas.height,
+    canvas.height
+  );
   skyStyle.addColorStop(0, "black");
   skyStyle.addColorStop(1.0, "#035");
   context.fillStyle = skyStyle;
