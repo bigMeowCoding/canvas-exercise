@@ -82,3 +82,87 @@ export function drawRect(
   context.fillRect(x, y, width, height);
   context.strokeRect(x, y, width, height);
 }
+
+export function drawStarSky(count: number) {
+  const { context, canvas } = getCanvasBase();
+  if (!context) {
+    return;
+  }
+  const skyStyle = context.createRadialGradient(
+    canvas.width / 2,
+    canvas.height,
+    0,
+    canvas.width / 2,
+    canvas.height,
+    canvas.height
+  );
+  skyStyle.addColorStop(0, "black");
+  skyStyle.addColorStop(1.0, "#035");
+  context.fillStyle = skyStyle;
+  context.fillRect(0, 0, canvas.width, canvas.height);
+  for (let i = 0; i < count; i++) {
+    const rot = 360 * Math.random(),
+      x = canvas.width * Math.random(),
+      y = canvas.height * 0.65 * Math.random(),
+      r = Math.random() * 10 + 10;
+    drawStar(
+      context,
+      {
+        x,
+        y,
+        rot,
+      },
+      { inner: r / 2, outer: r },
+      { fillStyle: "yellow" }
+    );
+  }
+}
+
+function pathRoundRect(
+  context: CanvasRenderingContext2D,
+  width: number,
+  height: number,
+  radius: number
+) {
+  context.beginPath();
+  context.arc(width - radius, height - radius, radius, 0, Math.PI / 2);
+  context.lineTo(radius, height);
+  context.arc(radius, height - radius, radius, Math.PI / 2, Math.PI);
+  context.lineTo(0, radius);
+  context.arc(radius, radius, radius, Math.PI, (Math.PI * 3) / 2);
+  context.lineTo(width - radius, 0);
+  context.arc(width - radius, radius, radius, (Math.PI * 3) / 2, Math.PI * 2);
+  context.closePath();
+}
+
+export function strokeRoundRect(
+  context: CanvasRenderingContext2D,
+  pos: { x: number; y: number },
+  size: { width: number; height: number; radius: number },
+  option?: {
+    strokeStyle: string;
+  }
+) {
+  context.save();
+  context.translate(pos.x, pos.y);
+  pathRoundRect(context, size.width, size.height, size.radius);
+  context.strokeStyle = option?.strokeStyle ?? "black";
+  context.stroke();
+  context.restore();
+}
+
+export function fillRoundRect(
+  context: CanvasRenderingContext2D,
+  pos: { x: number; y: number },
+  size: { width: number; height: number; radius: number },
+  option?: {
+    fillStyle: string;
+  }
+) {
+  context.save();
+  context.translate(pos.x, pos.y);
+  pathRoundRect(context, size.width, size.height, size.radius);
+  context.fillStyle = option?.fillStyle ?? "black";
+  context.fill();
+  context.restore();
+}
