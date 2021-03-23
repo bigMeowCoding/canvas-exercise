@@ -166,3 +166,34 @@ export function fillRoundRect(
   context.fill();
   context.restore();
 }
+
+export function fillMoon(
+  ctx: CanvasRenderingContext2D,
+  d: number,
+  x: number,
+  y: number,
+  r: number,
+  rot: number,
+  fillColor?: string
+) {
+  ctx.save();
+  ctx.translate(x, y);
+  ctx.rotate((rot * Math.PI) / 180);
+  ctx.scale(r, r);
+  pathMoon(ctx, d);
+  ctx.fillStyle = fillColor || "#fb5";
+  ctx.fill();
+  ctx.restore();
+}
+
+export function pathMoon(ctx: CanvasRenderingContext2D, d: number) {
+  ctx.beginPath();
+  ctx.arc(0, 0, 1, 0.5 * Math.PI, 1.5 * Math.PI, true);
+  ctx.moveTo(0, -1);
+  ctx.arcTo(d, 0, 0, 1, dis(0, -1, d, 0) / d);
+  ctx.closePath();
+}
+
+function dis(x1: number, y1: number, x2: number, y2: number): number {
+  return Math.sqrt((x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2));
+}
