@@ -5,12 +5,23 @@ const WINDOW_WIDTH = 1024,
   WINDOW_HEIGHT = 768,
   RADIUS = 8,
   MARGIN_TOP = 60,
-  MARGIN_LEFT = 30;
+  MARGIN_LEFT = 30,
+  endTime = new Date(2021, 2, 26, 23, 59, 59);
+
+function getRestTimeSeconds(): number {
+  const endTimes = endTime.getTime(),
+    nowTimes = new Date().getTime();
+  const rest = Math.floor((endTimes - nowTimes) / 1000);
+  return rest > 0 ? rest : 0;
+}
 
 function render(cxt: CanvasRenderingContext2D) {
-  var hours = 12;
-  var minutes = 34;
-  var seconds = 56;
+  const restSeconds = getRestTimeSeconds();
+
+  const hours = Math.floor(restSeconds / 3600),
+    minutes = Math.floor((restSeconds - hours * 3600) / 60),
+    seconds = (restSeconds - hours * 3600) % 60;
+
   renderDigit(MARGIN_LEFT, MARGIN_TOP, Math.floor(hours / 10), cxt);
   renderDigit(MARGIN_LEFT + 15 * (RADIUS + 1), MARGIN_TOP, hours % 10, cxt);
   renderDigit(MARGIN_LEFT + 30 * (RADIUS + 1), MARGIN_TOP, 10, cxt);
