@@ -7,6 +7,7 @@ const WINDOW_WIDTH = 1024,
   MARGIN_TOP = 60,
   MARGIN_LEFT = 30,
   endTime = new Date(2021, 2, 26, 23, 59, 59);
+let currentRestSeconds = 0;
 
 function getRestTimeSeconds(): number {
   const endTimes = endTime.getTime(),
@@ -16,11 +17,10 @@ function getRestTimeSeconds(): number {
 }
 
 function render(cxt: CanvasRenderingContext2D) {
-  const restSeconds = getRestTimeSeconds();
-
-  const hours = Math.floor(restSeconds / 3600),
-    minutes = Math.floor((restSeconds - hours * 3600) / 60),
-    seconds = (restSeconds - hours * 3600) % 60;
+  cxt.clearRect(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
+  const hours = Math.floor(currentRestSeconds / 3600),
+    minutes = Math.floor((currentRestSeconds - hours * 3600) / 60),
+    seconds = (currentRestSeconds - hours * 3600) % 60;
 
   renderDigit(MARGIN_LEFT, MARGIN_TOP, Math.floor(hours / 10), cxt);
   renderDigit(MARGIN_LEFT + 15 * (RADIUS + 1), MARGIN_TOP, hours % 10, cxt);
@@ -62,10 +62,23 @@ function renderDigit(
           2 * Math.PI
         );
         cxt.closePath();
-
         cxt.fill();
       }
 }
+
+function update() {
+  const nextRestTImeSeconds = getRestTimeSeconds();
+  const nextHours = Math.floor(nextRestTImeSeconds / 3600),
+    nextMinutes = Math.floor((nextRestTImeSeconds - nextHours * 3600) / 60),
+    nextSeconds = (nextRestTImeSeconds - nextHours * 3600) % 60;
+  const hours = Math.floor(currentRestSeconds / 3600),
+    minutes = Math.floor((currentRestSeconds - hours * 3600) / 60),
+    seconds = (currentRestSeconds - hours * 3600) % 60;
+  if (nextSeconds !== seconds) {
+    currentRestSeconds = nextRestTImeSeconds;
+  }
+}
+
 export function countDown() {
   window.onload = function () {
     const { context, canvas } = getCanvasBase();
@@ -74,6 +87,10 @@ export function countDown() {
     if (!context) {
       return;
     }
-    render(context);
+    currentRestSeconds = getRestTimeSeconds();
+    setInterval(() => {
+      render(context);
+      update();
+    }, 50);
   };
 }
