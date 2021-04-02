@@ -1,13 +1,7 @@
 import { getCanvasBase } from "./utils";
 import { DIGIT } from "./digit";
-interface Ball {
-  x: number;
-  y: number;
-  color: string;
-  g: number;
-  vx: number;
-  vy: number;
-}
+import { Ball } from "./types";
+
 const colors = [
   "#33B5E5",
   "#0099CC",
@@ -186,7 +180,7 @@ function updateBalls() {
   for (let i = 0; i < balls.length; i++) {
     balls[i].x += balls[i].vx;
     balls[i].y += balls[i].vy;
-    balls[i].vy += balls[i].g;
+    balls[i].vy += balls[i].g || 0;
 
     if (balls[i].y >= WINDOW_HEIGHT - RADIUS) {
       balls[i].y = WINDOW_HEIGHT - RADIUS;
