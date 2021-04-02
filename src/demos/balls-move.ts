@@ -29,21 +29,25 @@ export function run() {
         ball.x = ball.x + ball.vx;
         ball.y = ball.y + ball.vy;
         if (ball.x - radius <= 0) {
-          ball.vx = -ball.vx;
           ball.x = radius;
         }
         if (ball.x + radius >= canvas.width) {
-          ball.vx = ball.vx * -1;
           ball.x = canvas.width - radius;
         }
         if (ball.y - radius <= 0) {
-          ball.vy = -ball.vy;
           ball.y = radius;
         }
         if (ball.y + radius >= canvas.height) {
-          ball.vy = ball.vy * -1;
           ball.y = canvas.height - radius;
         }
+        ball.vx =
+            ball.x + radius >= canvas.width || ball.x - radius <= 0
+                ? -ball.vx
+                : ball.vx;
+        ball.vy =
+          ball.y - radius <= 0 || ball.y + radius >= canvas.height
+            ? -ball.vy
+            : ball.vy;
       }
     }
 
