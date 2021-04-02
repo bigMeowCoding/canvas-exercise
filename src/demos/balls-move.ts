@@ -16,6 +16,7 @@ export function run() {
       for (let i = 0; i < balls.length; i++) {
         const ball = balls[i];
         context.beginPath();
+        context.globalCompositeOperation = 'lighter'
         context.fillStyle = ball.color;
         context.arc(ball.x, ball.y, ball.r || 0, 0, Math.PI * 2);
         context.fill();
@@ -60,7 +61,7 @@ export function run() {
           color: `rgb(${R},${G},${B})`,
           x: Math.random() * canvas.width,
           y: Math.random() * canvas.height,
-          r: Math.random() * 100,
+          r: Math.random() * 60,
           vx:
             (Math.random() * 5 + 5) *
             Math.pow(-1, Math.floor(Math.random() * 100)),

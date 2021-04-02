@@ -4,8 +4,8 @@ export function getCanvasBase(): {
 } {
   const canvas = document.getElementById("canvas") as HTMLCanvasElement,
     context = canvas.getContext("2d");
-  canvas.width = 800;
-  canvas.height = 800;
+  canvas.width = document.body.clientWidth;
+  canvas.height = document.body.clientHeight;
   return {
     canvas,
     context,
