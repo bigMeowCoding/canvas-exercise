@@ -1,0 +1,20 @@
+lockfileVersion: '6.1'
+
+settings:
+  autoInstallPeers: true
+  excludeLinksFromLockfile: false
+
+devDependencies:
+  prettier:
+    specifier: ^3.0.0
+    version: registry.npmmirror.com/prettier@3.0.0
+
+packages:
+
+  registry.npmmirror.com/prettier@3.0.0:
+    resolution: {integrity: sha512-zBf5eHpwHOGPC47h0zrPyNn+eAEIdEzfywMoYn2XPi0P44Zp0tSq64rq0xAREh4auw2cJZHo9QUob+NqCQky4g==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/prettier/-/prettier-3.0.0.tgz}
+    name: prettier
+    version: 3.0.0
+    engines: {node: '>=14'}
+    hasBin: true
+    dev: true
