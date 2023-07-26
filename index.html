@@ -11,18 +11,25 @@
     <title>Exercise</title>
   </head>
   <body>
-    <canvas  width="300" height="300"></canvas>
-<!--    <script type="application/javascript">-->
-<!--      const canvas = document.querySelector("canvas");-->
-<!--      const ctx = canvas.getContext("2d");-->
-<!--      ctx.fillStyle = "green";-->
-<!--      ctx.fillRect(10, 10, 200, 200);-->
-<!--    </script>-->
+    <canvas width="300" height="300"></canvas>
+    <!--    <script type="application/javascript">-->
+    <!--      const canvas = document.querySelector("canvas");-->
+    <!--      const ctx = canvas.getContext("2d");-->
+    <!--      ctx.fillStyle = "green";-->
+    <!--      ctx.fillRect(10, 10, 200, 200);-->
+    <!--    </script>-->
     <script type="application/javascript">
       const canvas = document.querySelector("canvas");
       const ctx = canvas.getContext("2d");
-      ctx.fillStyle = "green";
-      ctx.fillRect(10, 10, 200, 200);
+      // ctx.fillStyle = "green";
+      ctx.beginPath();
+      ctx.arc(120, 120, 100, 0, Math.PI * 2);
+      ctx.fillStyle = "red";
+      ctx.fill();
+      ctx.lineWidth=20; // 包括在圆内
+      ctx.strokeStyle = "yellow";
+      ctx.stroke();
+      // ctx.fillRect(10, 10, 200, 200);
     </script>
   </body>
 </html>
