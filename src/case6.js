@@ -2,6 +2,7 @@
  * @description 画大转盘
  */
 import getRandomColor from "./common/getRandomColor";
+import getRandomInt from "./common/getRandomInt";
 
 const options = { radius: 100, angle: 0, speed: 0.1, count: 8 };
 const colors = new Array(options.count).fill(0).map(() => getRandomColor());
@@ -31,15 +32,12 @@ function drawBigwheel() {
       angle + -Math.PI / 2,
       angle + -Math.PI / 2 + (2 * Math.PI) / drawCount,
     );
-    console.log(
-      angle + -Math.PI / 2,
-      angle + -Math.PI / 2 + (2 * Math.PI) / drawCount,
-    );
+
     ctx.fillStyle = colors[i];
     ctx.fill();
     ctx.closePath();
-    ctx.save();
 
+    ctx.save();
     ctx.fillStyle = "black";
     ctx.font = "20px Arial";
     ctx.textAlign = "center";
@@ -51,6 +49,7 @@ function drawBigwheel() {
       pos.y + options.radius * 0.5 * Math.sin(textAngle),
     );
     ctx.restore();
+
     angle += (Math.PI * 2) / drawCount;
   }
   ctx.beginPath();
@@ -94,7 +93,17 @@ function isInCenterCircle(x, y) {
 canvas.addEventListener("click", (e) => {
   const { clientX, clientY } = e;
   if (isInCenterCircle(clientX, clientY)) {
-    spinWheel();
+    // spinWheel();
+    const index = getRandomInt(1, 8);
+    console.log("index", index);
+
+    options.angle = -1 * (((index - 1) * 2 * Math.PI) / 8 + (2 * Math.PI) / 16);
+    // options.angle=-1* 2* Math.PI/8
+    drawBigwheel();
+    // 减速旋转
+    // options.speed = options.speed - 0.001 > 0 ? options.speed - 0.001 : 0; // 可根据需要调整减速度
+
+    // requestAnimationFrame(spinWheel);
   }
 });
 drawBigwheel();
