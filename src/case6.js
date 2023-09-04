@@ -3,8 +3,27 @@
  */
 import getRandomColor from "./common/getRandomColor";
 import getRandomInt from "./common/getRandomInt";
+import isInCenterCircle from "./common/isInCenterCircle";
 
-const options = { radius: 100, angle: 0, speed: 0.1, count: 8 };
+const options = {
+  radius: 100,
+  angle: 0,
+  status: 1,
+  accSpeed: 0.3,
+  decSpeed: -0.1,
+  speed: 0,
+  maxSpeed: 1,
+  minSpeed: 0.1,
+  count: 8,
+  des: 0,
+};
+
+options.decTime = (options.maxSpeed - options.minSpeed) / options.decSpeed;
+options.decPath =
+  (options.maxSpeed * options.decTime +
+    0.5 * options.decSpeed * options.decTime * options.decTime) %
+  360;
+
 const colors = new Array(options.count).fill(0).map(() => getRandomColor());
 const canvas = document.querySelector("canvas");
 const ctx = canvas.getContext("2d");
@@ -12,9 +31,7 @@ const centerCircleRadius = 20;
 const canvasWidth = canvas.width;
 const canvasHeight = canvas.height;
 const pos = { x: canvasWidth / 2, y: canvasHeight / 2 };
-const friction = 0.998; // 摩擦系数，越接近1，减速越慢
 
-let targetSegment = 5;
 function drawBigwheel() {
   const drawCount = 8;
   // ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -59,51 +76,58 @@ function drawBigwheel() {
 }
 function spinWheel() {
   let angle = options.angle;
+  const status = options.status;
+  let targetAngle = options.des;
+  // targetAngle = (360 - options.decPath - targetAngle) % 360;
+
+  let speed = options.speed;
+  if (status === 1) {
+    speed += options.accSpeed;
+    if (speed > options.maxSpeed) {
+      speed = options.maxSpeed;
+      options.status = 0;
+    }
+  } else if (status === -1) {
+    speed += options.decSpeed;
+    if (speed < options.minSpeed) {
+      speed = options.minSpeed;
+    }
+  }
+
+  angle += speed;
   angle = angle % (Math.PI * 2);
 
-  const targetAngle =
-    2 * Math.PI - ((2 * Math.PI) / options.count) * targetSegment;
-  const distanceToTarget = Math.abs(targetAngle - angle);
-  let speed = options.speed;
-  speed = speed * friction;
-  if (speed < 0.005 && distanceToTarget < 0.05) {
-    speed *= 0.95; // 更大的摩擦
+  if (options.status === 0 && angle - targetAngle < options.maxSpeed) {
+    options.status = -1;
   }
-  angle += speed;
-  // 停止旋转条件
-  if (options.speed < 0.0001 && distanceToTarget < 0.005) {
-    options.angle = targetAngle;
-    options.speed = 0;
-    return; // 停止旋转
-  }
+
   options.angle = angle;
   options.speed = speed;
+  console.log(status, speed, angle, targetAngle);
+  // 停止旋转条件
+  if (
+    options.speed <= options.minSpeed &&
+    Math.abs(options.angle - targetAngle) <= 0.01
+  ) {
+    return; // 停止旋转
+  }
+
   drawBigwheel();
-  console.log("spinWheel", angle, options.speed, distanceToTarget);
+  // console.log("spinWheel", angle, options.speed);
   // 减速旋转
   // options.speed = options.speed - 0.001 > 0 ? options.speed - 0.001 : 0; // 可根据需要调整减速度
 
   requestAnimationFrame(spinWheel);
 }
-function isInCenterCircle(x, y) {
-  const { x: centerX, y: centerY } = pos;
-  const distance = Math.sqrt((x - centerX) ** 2 + (y - centerY) ** 2);
-  return distance <= centerCircleRadius;
-}
+
 canvas.addEventListener("click", (e) => {
   const { clientX, clientY } = e;
-  if (isInCenterCircle(clientX, clientY)) {
-    // spinWheel();
+  if (isInCenterCircle(clientX, clientY, centerCircleRadius, pos)) {
     const index = getRandomInt(1, 8);
     console.log("index", index);
-
-    options.angle = -1 * (((index - 1) * 2 * Math.PI) / 8 + (2 * Math.PI) / 16);
-    // options.angle=-1* 2* Math.PI/8
-    drawBigwheel();
-    // 减速旋转
-    // options.speed = options.speed - 0.001 > 0 ? options.speed - 0.001 : 0; // 可根据需要调整减速度
-
-    // requestAnimationFrame(spinWheel);
+    options.des =
+      2 * Math.PI - (((index - 1) * 2 * Math.PI) / 8 + (2 * Math.PI) / 16);
+    spinWheel();
   }
 });
 drawBigwheel();

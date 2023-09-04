@@ -1,15 +1,12 @@
 {
   "name": "canvas-exercise",
   "version": "0.0.1",
-  "description": "",
-  "keywords": "",
-  "license": "",
-  "author": "",
+  "description": "canvas exercise",
+  "license": "MIT",
+  "author": "yijun.zhou",
   "scripts": {
-    "build": "parcel build index.html",
-    "dev": "parcel index.html --open",
-    "start": "vite",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "vite build",
+    "start": "vite"
   },
   "devDependencies": {
     "prettier": "^3.0.0",
