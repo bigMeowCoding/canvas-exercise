@@ -22,26 +22,12 @@
   <body>
     <canvas id="canvas"></canvas>
     <!--    <div id="div"></div>-->
-    <script>
-      (function () {
-        const canvas = document.querySelector("canvas");
-
-        function resizeCanvas() {
-          canvas.width = window.innerWidth;
-          canvas.height = window.innerHeight;
-        }
-
-        // 初始化 Canvas 大小
-        resizeCanvas();
-
-        // 监听窗口大小变化，动态调整 Canvas 大小
-        window.addEventListener("resize", resizeCanvas);
-      })();
-    </script>
+    <script src="src/common/reset.ts"></script>
     <!--    <script src="src/case1.js"></script>-->
     <!--    <script src="src/case2.js"></script>-->
-<!--        <script src="src/case3.js"></script>-->
+    <!--        <script src="src/case3.js"></script>-->
     <!--    <script src="src/case4.js"></script>-->
-    <script src="src/case6.js" type="module"></script>
+    <!--    <script src="src/case6.js" type="module"></script>-->
+    <script src="src/case7.ts"></script>
   </body>
 </html>
