@@ -2,9 +2,10 @@
   const canvas = document.getElementById("canvas") as HTMLCanvasElement;
 
   function resizeCanvas() {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-    console.log("widow size", window.innerWidth, window.innerHeight);
+    // canvas.width = window.innerWidth;
+    // canvas.height = window.innerHeight;
+    canvas.width = 698;
+    canvas.height = 698;
   }
 
   // 初始化 Canvas 大小
