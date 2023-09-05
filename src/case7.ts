@@ -4,7 +4,8 @@
 const canvas = document.getElementById("canvas") as HTMLCanvasElement,
   context = canvas.getContext("2d");
 const MARGIN = 35,
-  NUM_SPACE = 20;
+  NUM_SPACE = 20,
+  FONT_HEIGHT = 15;
 const RADIUS = canvas.width / 2 - MARGIN,
   HAND_RADIUS = RADIUS + NUM_SPACE,
   HAND_TRUNCATION = canvas.width / 25,
@@ -69,4 +70,5 @@ function drawClock() {
   drawNumber();
   drawHands();
 }
+context.font = FONT_HEIGHT + "px Arial";
 window.setInterval(drawClock, 1000);
