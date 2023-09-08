@@ -1,23 +1,33 @@
 <html lang="cn">
   <head>
     <link href="src/static/css/common.css" rel="stylesheet" />
-    <link href="src/static/css/bubble.css" rel="stylesheet" />
-
+    <!--    <link href="src/static/css/bubble.css" rel="stylesheet" />-->
+    <link rel="stylesheet" href="src/static/css/rubber.css" />
     <!--    <link href="src/static/css/sprite.css" rel="stylesheet" />-->
 
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <title>Exercise</title>
   </head>
   <body>
+    <!--  精灵图片demo-->
     <!--    <div id="readout"></div>-->
-    <div id="glasspane">
-      <h2 class="title">Bouncing Balls</h2>
 
-      <p>One hundred balls bouncing</p>
+    <!--    小球demo-->
+    <!--    <div id="glasspane">-->
+    <!--      <h2 class="title">Bouncing Balls</h2>-->
 
-      <a id="startButton">Start</a>
+    <!--      <p>One hundred balls bouncing</p>-->
+
+    <!--      <a id="startButton">Start</a>-->
+    <!--    </div>-->
+
+    <!--    橡皮筋demo-->
+    <div id="controls">
+      <input type="button" id="resetButton" value="Reset" />
     </div>
+
+    <div id="rubberbandDiv"></div>
 
     <canvas id="canvas"></canvas>
     <script src="src/common/reset.ts"></script>
@@ -29,8 +39,8 @@
     <!--    <script src="src/case6.js" type="module"></script>-->
     <!--    <script src="src/case7.ts"></script>-->
     <!--    <script src="src/case8.ts" type="module"></script>-->
-<!--    <script src="src/case9.ts" type="module"></script>-->
-    <script src="src/case10.ts" type="module"></script>
-
+    <!--    <script src="src/case9.ts" type="module"></script>-->
+    <!--    <script src="src/balls.ts" type="module"></script>-->
+    <script src="src/rubber.ts" type="module"></script>
   </body>
 </html>
