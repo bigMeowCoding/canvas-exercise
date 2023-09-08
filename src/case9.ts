@@ -71,7 +71,7 @@ function drawGuideLine(x: number, y: number) {
 }
 
 canvas.onmousemove = (e) => {
-  console.log('onmouseenter')
+  console.log("onmouseenter");
   const { clientY, clientX } = e;
   const { x, y } = posWindowToCanvas(clientX, clientY);
   drawBackGround();
@@ -79,11 +79,10 @@ canvas.onmousemove = (e) => {
   drawGuideLine(x, y);
   updateReadOut(x, y);
 };
-canvas.onmousedown =function () {
-  console.log('mousedown')
-}
+canvas.onmousedown = function () {
+  console.log("mousedown");
+};
 canvas.onmouseenter = (e) => {
-  console.log('onmouseenter')
-
+  console.log("onmouseenter");
 };
 drawBackGround();
