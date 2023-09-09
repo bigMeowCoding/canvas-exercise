@@ -50,18 +50,6 @@ function hideRubberDiv() {
   rubberDiv.style.display = "none";
 }
 
-canvas.onmousedown = (e) => {
-  const { clientY, clientX } = e;
-  startPos.x = clientX;
-  startPos.y = clientY;
-  rubberStyle.left = clientX;
-  rubberStyle.top = clientY;
-  showRubberDiv();
-  moveRubberDiv();
-  dragging = true;
-  console.log("mousedown======");
-};
-
 function moveRubberDiv() {
   if (!rubberDiv) {
     return;
@@ -77,7 +65,17 @@ function resizeRubberDiv() {
   rubberDiv.style.width = rubberStyle.width + "px";
   rubberDiv.style.height = rubberStyle.height + "px";
 }
-
+canvas.onmousedown = (e) => {
+  const { clientY, clientX } = e;
+  startPos.x = clientX;
+  startPos.y = clientY;
+  rubberStyle.left = clientX;
+  rubberStyle.top = clientY;
+  showRubberDiv();
+  moveRubberDiv();
+  dragging = true;
+  e.preventDefault();
+};
 window.onmousemove = (e) => {
   if (!dragging) {
     return;
@@ -98,19 +96,18 @@ window.onmousemove = (e) => {
     height = 0;
   width = Math.abs(clientX - x);
   height = Math.abs(clientY - y);
-  console.log("move===", width, height);
 
   rubberStyle.width = width;
   rubberStyle.height = height;
   moveRubberDiv();
   resizeRubberDiv();
+  e.preventDefault();
 };
 
 window.addEventListener(
   "mouseup",
-  () => {
+  (e) => {
     dragging = false;
-    console.log("mouseup====");
     hideRubberDiv();
 
     const canvasRectangle = canvas.getBoundingClientRect();
@@ -142,6 +139,7 @@ window.addEventListener(
       canvas.width,
       canvas.height,
     );
+    e.preventDefault();
   },
   false,
 );
