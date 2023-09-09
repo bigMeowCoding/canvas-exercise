@@ -2,14 +2,27 @@ import loadImage from "./common/loadImage";
 
 const canvas = document.getElementById("canvas") as HTMLCanvasElement,
   context = canvas.getContext("2d");
-
+canvas.width = 800;
+canvas.height = 500;
+let drawImageEl: HTMLImageElement;
 const startPos = {
   x: 0,
   y: 0,
 };
 let dragging = false;
 const rubberDiv = document.getElementById("rubberbandDiv");
-
+const resetBtn = document.getElementById("resetButton");
+resetBtn.addEventListener(
+  "mouseup",
+  (e) => {
+    console.log("ss");
+    context.clearRect(0, 0, canvas.width, canvas.height);
+    context.drawImage(drawImageEl, 0, 0);
+    e.preventDefault();
+    e.stopPropagation();
+  },
+  false,
+);
 const rubberStyle = {
   left: 0,
   top: 0,
@@ -18,6 +31,7 @@ const rubberStyle = {
 };
 async function drawImage() {
   const image = await loadImage("/src/static/images/arch.png");
+  drawImageEl = image;
   context?.drawImage(image, 0, 0);
 }
 
@@ -29,8 +43,14 @@ function showRubberDiv() {
   }
   rubberDiv.style.display = "block";
 }
+function hideRubberDiv() {
+  if (!rubberDiv) {
+    return;
+  }
+  rubberDiv.style.display = "none";
+}
 
-window.onmousedown = (e) => {
+canvas.onmousedown = (e) => {
   const { clientY, clientX } = e;
   startPos.x = clientX;
   startPos.y = clientY;
@@ -38,8 +58,8 @@ window.onmousedown = (e) => {
   rubberStyle.top = clientY;
   showRubberDiv();
   moveRubberDiv();
-  dragging=true
-  console.log('mousedown======')
+  dragging = true;
+  console.log("mousedown======");
 };
 
 function moveRubberDiv() {
@@ -85,7 +105,43 @@ window.onmousemove = (e) => {
   moveRubberDiv();
   resizeRubberDiv();
 };
-window.onmouseup = () => {
-  dragging=false
-  console.log('mouseup====')
-};
+
+window.addEventListener(
+  "mouseup",
+  () => {
+    dragging = false;
+    console.log("mouseup====");
+    hideRubberDiv();
+
+    const canvasRectangle = canvas.getBoundingClientRect();
+
+    const { left, top } = canvasRectangle;
+
+    const clipLeft = rubberStyle.left - left;
+    const clipTop = rubberStyle.top - top;
+    console.log(rubberStyle.left, rubberStyle.top, left, top);
+    console.log(
+      drawImageEl,
+      left,
+      top,
+      canvasRectangle.width,
+      canvasRectangle.height,
+      0,
+      0,
+      canvas.width,
+      canvas.height,
+    );
+    context?.drawImage(
+      drawImageEl,
+      clipLeft,
+      clipTop,
+      rubberStyle.width,
+      rubberStyle.height,
+      0,
+      0,
+      canvas.width,
+      canvas.height,
+    );
+  },
+  false,
+);
