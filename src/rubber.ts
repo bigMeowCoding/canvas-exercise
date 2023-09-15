@@ -1,4 +1,4 @@
-import loadImage from "./common/loadImage";
+import loadImage from "./common/utils/loadImage";
 
 const canvas = document.getElementById("canvas") as HTMLCanvasElement,
   context = canvas.getContext("2d");
@@ -12,12 +12,12 @@ const startPos = {
 let dragging = false;
 const rubberDiv = document.getElementById("rubberbandDiv");
 const resetBtn = document.getElementById("resetButton");
-resetBtn.addEventListener(
+resetBtn?.addEventListener(
   "mouseup",
   (e) => {
     console.log("ss");
-    context.clearRect(0, 0, canvas.width, canvas.height);
-    context.drawImage(drawImageEl, 0, 0);
+    context?.clearRect(0, 0, canvas.width, canvas.height);
+    context?.drawImage(drawImageEl, 0, 0);
     e.preventDefault();
     e.stopPropagation();
   },

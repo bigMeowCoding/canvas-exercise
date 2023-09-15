@@ -1,8 +1,8 @@
 /**
  * @description 小球壁纸效果实现
  */
-import getRandomInt from "./common/getRandomInt";
-import getRandomColor from "./common/getRandomColor";
+import getRandomInt from "./common/utils/getRandomInt";
+import getRandomColor from "./common/utils/getRandomColor";
 
 
 const canvas = document.getElementById("canvas") as HTMLCanvasElement,

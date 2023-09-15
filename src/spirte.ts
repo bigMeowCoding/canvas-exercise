@@ -1,20 +1,14 @@
-/**
- * @description spriteimage
- */
-
-const canvas = document.getElementById("canvas") as HTMLCanvasElement,
-  context = canvas.getContext("2d");
-canvas.width = 500;
-canvas.height = 250;
-
 const spriteImage = new Image();
 spriteImage.src = "/src/static/images/running-sprite-sheet.png";
 
 function drawSpriteImage() {
-  context.drawImage(spriteImage, 0, 0);
+  context?.drawImage(spriteImage, 0, 0);
 }
 
 function drawBackGround() {
+  if (!context) {
+    return;
+  }
   context.clearRect(0, 0, canvas.width, canvas.height);
   const vertical_line_space = 12;
   let i = context.canvas.height;
@@ -50,6 +44,9 @@ function updateReadOut(x: number, y: number) {
 }
 
 function drawHorizontalLine(y: number) {
+  if (!context) {
+    return;
+  }
   context.beginPath();
   context.moveTo(0, y + 0.5);
   context.lineTo(canvas.width, y + 0.5);
@@ -57,6 +54,9 @@ function drawHorizontalLine(y: number) {
 }
 
 function drawVerticalLine(x: number) {
+  if (!context) {
+    return;
+  }
   context.beginPath();
   context.moveTo(x + 0.5, 0);
   context.lineTo(x + 0.5, canvas.height);
@@ -64,6 +64,9 @@ function drawVerticalLine(x: number) {
 }
 
 function drawGuideLine(x: number, y: number) {
+  if (!context) {
+    return;
+  }
   context.lineWidth = 0.5;
   context.strokeStyle = "rgba(0,0,230,0.8)";
   drawHorizontalLine(y);

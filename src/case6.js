@@ -1,9 +1,9 @@
 /**
  * @description 画大转盘
  */
-import getRandomColor from "./common/getRandomColor";
-import getRandomInt from "./common/getRandomInt";
-import isInCenterCircle from "./common/isInCenterCircle";
+import getRandomColor from "./common/utils/getRandomColor";
+import getRandomInt from "./common/utils/getRandomInt";
+import isInCenterCircle from "./common/utils/isInCenterCircle";
 
 const options = {
   radius: 100,

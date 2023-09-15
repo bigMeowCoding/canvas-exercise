@@ -1,5 +1,5 @@
-import loadImages from "./common/loadImages";
-import getRandomInt from "./common/getRandomInt";
+import loadImages from "./common/utils/loadImages";
+import getRandomInt from "./common/utils/getRandomInt";
 
 /**
  * @description createImage demo test
