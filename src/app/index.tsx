@@ -1,10 +1,14 @@
 import React, { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import Pattern from "./examples/pattern/pattern";
+import Shadow from "./examples/shadow";
 
-const root = createRoot(document.getElementById("root"));
+const rootEl = document.getElementById("root") as HTMLElement;
+const root = createRoot(rootEl);
+
 root.render(
   <StrictMode>
-    <Pattern/>
+    {/*<Pattern />*/}
+    <Shadow />
   </StrictMode>,
 );
