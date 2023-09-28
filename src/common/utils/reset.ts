@@ -4,8 +4,6 @@
   function resizeCanvas() {
     // canvas.width = window.innerWidth;
     // canvas.height = window.innerHeight;
-    canvas.width = 698;
-    canvas.height = 698;
   }
 
   // 初始化 Canvas 大小
