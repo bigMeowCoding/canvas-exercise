@@ -1,8 +1,9 @@
 import WeimobGame from "./common/weimobGame";
+import { useMount } from "ahooks";
 
 const param = {
   name: "egg",
-  id: "game",
+  id: "canvas",
   // scripts: [import("../games/libs/game"), import("../games/egg/egg")],
   // url: "//cdn2.weimob.com/saas/@qa/saas-fe-comon-h5-stc/bos/lego/",
 };
@@ -11,6 +12,8 @@ const weimobGame = new WeimobGame();
 weimobGame.init({
   ...param,
   theme: "0",
+  // width: 750,
+  // height: 750,
   data: [
     {
       name: "dan_0_0",
@@ -67,5 +70,9 @@ weimobGame.init({
   onLoadingHandle: function (e) {
     console.log(e);
   },
-  onCompleteHandle: () => {},
+  onCompleteHandle,
 });
+
+function onCompleteHandle() {
+  weimobGame.game.init()
+}

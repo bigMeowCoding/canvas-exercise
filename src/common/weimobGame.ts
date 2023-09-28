@@ -7,36 +7,39 @@ export interface IWeimobGame {
   onLoadingHandle: (d: number) => void;
   id: string;
   theme: string;
+  width?: number;
+  height?: number;
   data: { name: string; label?: string; src: string }[];
 }
 
 class WeimobGame {
-  private scg: WGameContext | null = null;
-  private name: string = "";
+  public scg: WGameContext | null = null;
   private myImages: { [key: string]: HTMLImageElement } = {};
   private data: { name: string; label?: string; src: string }[] = [];
   private option: IWeimobGame | null = null;
+  public game: any; // TODO
   constructor() {}
 
   init(option: IWeimobGame) {
-    this.name = option.name;
     this.data = option.data;
     this.option = option;
-    this.loadGameScript().then(()=> {
+    this.loadGameScript().then(() => {
       this.loadMaterial();
     });
-
   }
-
+  public getOption() {
+    return this.option as IWeimobGame; // TODO
+  }
   private async loadGameScript() {
+    const _this = this;
     const loadingHandle = this.option?.onLoadingHandle;
     const scg = await import("./lib/game");
-
+    const option = this.getOption();
     this.scg = new scg.default();
-    this.scg.init();
     loadingHandle?.(5);
-    const Game = await import(`./games/${this.name}/index.ts`);
-    new Game.default();
+    const name = this.option?.name ?? "";
+    const Game = await import(`./games/${name}/index.ts`);
+    this.game = new Game.default(this);
     loadingHandle?.(10);
   }
 
@@ -58,7 +61,6 @@ class WeimobGame {
         },
       },
     );
-
 
     for (let i = 0; i < this.data.length; i++) {
       this.myImages[this.data[i].name] = images[i];
