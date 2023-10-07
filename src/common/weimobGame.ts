@@ -14,7 +14,7 @@ export interface IWeimobGame {
 
 class WeimobGame {
   public scg: WGameContext | null = null;
-  private myImages: { [key: string]: HTMLImageElement } = {};
+  public myImages: { [key: string]: HTMLImageElement } = {};
   private data: { name: string; label?: string; src: string }[] = [];
   private option: IWeimobGame | null = null;
   public game: any; // TODO
@@ -35,7 +35,7 @@ class WeimobGame {
     const loadingHandle = this.option?.onLoadingHandle;
     const scg = await import("./lib/game");
     const option = this.getOption();
-    this.scg = new scg.default();
+    this.scg = new scg.default(this);
     loadingHandle?.(5);
     const name = this.option?.name ?? "";
     const Game = await import(`./games/${name}/index.ts`);

@@ -1,14 +1,19 @@
 import WeimobGame from "../../weimobGame";
+import WGameContext from "../../lib/game";
 
 class Egg {
   private weimobGame: WeimobGame;
-  constructor(ctx: WeimobGame) {
-    this.weimobGame = ctx;
+  private scg: WGameContext;
+  constructor(weimobGame: WeimobGame) {
+    this.weimobGame = weimobGame;
+    this.scg = this.weimobGame.scg as WGameContext;
   }
   init() {
     const option = this.weimobGame.getOption();
 
-    this.weimobGame.scg?.init(option.id, { width: 750, height: 750 });
+    this.scg.init(option.id, { width: 750, height: 750 });
+    const stage = this.scg.stage;
+
   }
 }
 export default Egg;
