@@ -32,6 +32,46 @@ class WGameContext {
     this.stage = this.contain();
     console.log("initContext222");
   }
+  openRepick() {
+    this.frameWorkHandle();
+  }
+  frameWorkHandle() {
+    // console.log("frameWorkHandle", this.stage);
+    if(!this.ctx){
+      return
+    }
+    this.ctx.clearRect(0, 0, this.canvas?.width ?? 0, this.canvas?.height ?? 0);
+    if (this.stage) {
+      this.showPage(this.stage);
+    }
+    window.requestAnimationFrame(this.frameWorkHandle.bind(this));
+  }
+  showPage(stageNode: StageNode) {
+    if (!this.ctx) {
+      return;
+    }
+    this.ctx.save();
+    // console.log(stageNode.childs[0]?.img, "stageNode.childs[0].img")
+    // this.ctx.drawImage(
+    //   stageNode.childs[0].img,
+    //   0,
+    //   0,
+    //
+    // );
+
+    console.log(stageNode.x, stageNode.y, "stageNode.x, stageNode.y")
+    this.ctx.translate(stageNode.x, stageNode.y);
+    // this.ctx.translate(0,0)
+    if (stageNode.type == INodeType.image) {
+      this.drawImage(stageNode as StageImageNode);
+    } else {
+      const childs = stageNode.childs as StageNode[];
+      for (let i = 0; i < childs.length; i++) {
+        this.showPage(childs[i]);
+      }
+    }
+    this.ctx.restore();
+  }
   contain() {
     return new StageNode(INodeType.cons);
   }
@@ -64,6 +104,37 @@ class WGameContext {
       { x: sx, y: sy },
     );
   }
+
+  private drawImage(stageNode: StageImageNode) {
+    if (!this.ctx) {
+      return;
+    }
+
+    this.ctx.save();
+    // pushMask(mc);
+    const w = stageNode.scaleX * stageNode.img.width;
+    const h = stageNode.img.height * stageNode.scaleY;
+    const rx = stageNode.regX * stageNode.scaleX;
+    const ry = stageNode.regY * stageNode.scaleY;
+    // if (mc.rotate == undefined) mc.rotate = 0;
+    // var r = (mc.rotate * Math.PI) / 180;
+    // ctx.globalAlpha *= mc.alpha;
+    // this.ctx.translate(stageNode.x, stageNode.y);
+    // this.ctx.rotate(r);
+    // if (mc.transform != undefined) {
+    //   var a = mc.transform;
+    //   ctx.transform(a[0], a[1], a[2], a[3], a[4], a[5]);
+    // }
+    // ctx.imageSmoothingEnabled = true;
+
+    this.ctx.drawImage(
+      stageNode.img,
+      0,
+      0,
+    );
+    // addEvent(mc);
+    this.ctx.restore();
+  }
 }
 
 export default WGameContext;
@@ -71,13 +142,14 @@ export enum INodeType {
   cons,
   image,
 }
+
 class StageNode {
-  private childs: StageNode[] = [];
+  public childs: StageNode[] = [];
   private alpha: number;
   public x: number;
   public y: number;
   public rotate: number;
-  constructor(private type: INodeType) {
+  constructor(public type: INodeType) {
     this.type = type;
     this.childs = [];
     this.x = 0;
@@ -89,12 +161,13 @@ class StageNode {
     this.childs.push(node);
   }
 }
+
 class StageImageNode extends StageNode {
-  private img: HTMLImageElement;
-  private regX: any;
-  private regY: number;
-  private scaleX: number;
-  private scaleY: number;
+  public img: HTMLImageElement;
+  public regX: any;
+  public regY: number;
+  public scaleX: number;
+  public scaleY: number;
   constructor(
     img: HTMLImageElement,
     pos: { x: number; y: number },

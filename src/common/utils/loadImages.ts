@@ -36,7 +36,7 @@ export default function loadImages(
 
   // 使用Promise.all等待所有图片加载完成
   return Promise.all(imagePromises).then((images) => {
-    option?.onLoaded?.();
+    option?.onLoaded?.(images);
     return images;
   });
 }

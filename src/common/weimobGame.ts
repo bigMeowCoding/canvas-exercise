@@ -48,11 +48,17 @@ class WeimobGame {
     const onCompleteHandle = this.option?.onCompleteHandle;
     const len = this.data.length;
     let count = 0;
-    const images = await loadImages(
+    this.data.map((item) => {
+      const src = item.src;
+    });
+    await loadImages(
       this.data.map((item) => item.src),
       {
-        onLoaded: () => {
+        onLoaded: (images) => {
           loadingHandle?.(100);
+          for (let i = 0; i < this.data.length; i++) {
+            this.myImages[this.data[i].name] = images[i];
+          }
           onCompleteHandle?.();
         },
         onLoading: () => {
@@ -61,10 +67,6 @@ class WeimobGame {
         },
       },
     );
-
-    for (let i = 0; i < this.data.length; i++) {
-      this.myImages[this.data[i].name] = images[i];
-    }
   }
 }
 
