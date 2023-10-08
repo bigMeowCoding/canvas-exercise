@@ -37,8 +37,8 @@ class WGameContext {
   }
   frameWorkHandle() {
     // console.log("frameWorkHandle", this.stage);
-    if(!this.ctx){
-      return
+    if (!this.ctx) {
+      return;
     }
     this.ctx.clearRect(0, 0, this.canvas?.width ?? 0, this.canvas?.height ?? 0);
     if (this.stage) {
@@ -59,7 +59,7 @@ class WGameContext {
     //
     // );
 
-    console.log(stageNode.x, stageNode.y, "stageNode.x, stageNode.y")
+    console.log(stageNode.x, stageNode.y, "stageNode.x, stageNode.y");
     this.ctx.translate(stageNode.x, stageNode.y);
     // this.ctx.translate(0,0)
     if (stageNode.type == INodeType.image) {
@@ -112,6 +112,7 @@ class WGameContext {
 
     this.ctx.save();
     // pushMask(mc);
+    console.log(stageNode);
     const w = stageNode.scaleX * stageNode.img.width;
     const h = stageNode.img.height * stageNode.scaleY;
     const rx = stageNode.regX * stageNode.scaleX;
@@ -126,12 +127,20 @@ class WGameContext {
     //   ctx.transform(a[0], a[1], a[2], a[3], a[4], a[5]);
     // }
     // ctx.imageSmoothingEnabled = true;
-
+    console.log(stageNode.img.width, stageNode.img.height, -rx, -ry, w, h);
     this.ctx.drawImage(
       stageNode.img,
       0,
       0,
+      stageNode.img.width,
+      stageNode.img.height,
+      -rx,
+      -ry,
+      w,
+      h,
     );
+    // ctx.drawImage(mc.img, 0, 0, mc.img.width, mc.img.height, -rx, -ry, w, h);
+
     // addEvent(mc);
     this.ctx.restore();
   }
