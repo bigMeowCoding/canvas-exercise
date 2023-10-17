@@ -9,7 +9,6 @@ interface Props {}
 const Tree: FC<Props> = () => {
   const { context } = useContext();
   const { width: innerWidth, height: innerHeight } = useWindow();
-  console.log(innerHeight, innerWidth);
 
   useEffect(() => {
     if (!context) {

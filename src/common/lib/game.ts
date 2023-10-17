@@ -2,8 +2,8 @@ import { INone } from "../../typing/base";
 import WeimobGame from "../weimobGame";
 
 class WGameContext {
-  private ctx: CanvasRenderingContext2D | INone;
-  private canvas: HTMLCanvasElement | INone;
+  public ctx: CanvasRenderingContext2D | INone;
+  public canvas: HTMLCanvasElement | INone;
   public stage: StageNode | INone;
   private weimobGame: WeimobGame;
   constructor(wGame: WeimobGame) {
@@ -46,6 +46,7 @@ class WGameContext {
     }
     window.requestAnimationFrame(this.frameWorkHandle.bind(this));
   }
+
   showPage(stageNode: StageNode) {
     if (!this.ctx) {
       return;
@@ -59,15 +60,17 @@ class WGameContext {
     //
     // );
 
-    console.log(stageNode.x, stageNode.y, "stageNode.x, stageNode.y");
     this.ctx.translate(stageNode.x, stageNode.y);
-    // this.ctx.translate(0,0)
-    if (stageNode.type == INodeType.image) {
-      this.drawImage(stageNode as StageImageNode);
-    } else {
-      const childs = stageNode.childs as StageNode[];
-      for (let i = 0; i < childs.length; i++) {
-        this.showPage(childs[i]);
+    if (stageNode.rotate == undefined) stageNode.rotate = 0;
+    const r = (stageNode.rotate * Math.PI) / 180;
+    this.ctx.rotate(r);
+    const childs = stageNode.childs as StageNode[];
+    for (let i = 0; i < childs.length; i++) {
+      const child = childs[i];
+      if (child.type == INodeType.image) {
+        this.drawImage(child as StageImageNode);
+      } else {
+        this.showPage(child);
       }
     }
     this.ctx.restore();
@@ -81,6 +84,8 @@ class WGameContext {
     y: number,
     sx: number,
     sy?: number,
+    regX?: number,
+    regY?: number,
   ) {
     if (sy == undefined) {
       sy = sx / img.width;
@@ -98,8 +103,8 @@ class WGameContext {
       img,
       { x, y },
       {
-        x: img.width / 2,
-        y: img.height / 2,
+        x: regX ?? img.width / 2,
+        y: regY ?? img.height / 2,
       },
       { x: sx, y: sy },
     );
@@ -112,11 +117,15 @@ class WGameContext {
 
     this.ctx.save();
     // pushMask(mc);
-    console.log(stageNode);
     const w = stageNode.scaleX * stageNode.img.width;
     const h = stageNode.img.height * stageNode.scaleY;
     const rx = stageNode.regX * stageNode.scaleX;
     const ry = stageNode.regY * stageNode.scaleY;
+    var r = (stageNode.rotate * Math.PI) / 180;
+    console.log(stageNode.x, stageNode.y);
+    this.ctx.translate(stageNode.x, stageNode.y);
+    this.ctx.rotate(r);
+
     // if (mc.rotate == undefined) mc.rotate = 0;
     // var r = (mc.rotate * Math.PI) / 180;
     // ctx.globalAlpha *= mc.alpha;
@@ -127,7 +136,6 @@ class WGameContext {
     //   ctx.transform(a[0], a[1], a[2], a[3], a[4], a[5]);
     // }
     // ctx.imageSmoothingEnabled = true;
-    console.log(stageNode.img.width, stageNode.img.height, -rx, -ry, w, h);
     this.ctx.drawImage(
       stageNode.img,
       0,
@@ -152,7 +160,7 @@ export enum INodeType {
   image,
 }
 
-class StageNode {
+export class StageNode {
   public childs: StageNode[] = [];
   private alpha: number;
   public x: number;

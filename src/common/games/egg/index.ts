@@ -13,7 +13,6 @@ class Egg {
 
     this.scg.init(option.id, { width: 750, height: 750 });
     const stage = this.scg.stage;
-    // console.log(this.weimobGame, "weimobGame");
     const bg = this.scg.createImage(
       this.weimobGame.myImages.base,
       375,
