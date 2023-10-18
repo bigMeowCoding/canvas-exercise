@@ -13,7 +13,6 @@ class Bighweel {
 
     this.scg.init(option.id, { width: 698, height: 698 });
 
-
     const stage = this.scg.stage;
     if (!stage) {
       return;
@@ -51,10 +50,22 @@ class Bighweel {
         img.height / 2,
       );
       pan.rotate = (i * 360) / 8;
+      const text = this.scg.createText(i + "", 0, -235);
       pan.addChild(icon);
+      pan.addChild(text);
       pans.addChild(pan);
     }
     stage.addChild(pans);
+    const btn = this.scg.createImage(
+      this.weimobGame.myImages["btn_start"],
+      pans.x,
+      pans.y,
+      268,
+      268,
+      this.weimobGame.myImages["btn_start"].width / 2,
+      this.weimobGame.myImages["btn_start"].height / 2,
+    );
+    stage.addChild(btn);
     this.scg.openRepick();
     console.log(stage, "stage");
   }

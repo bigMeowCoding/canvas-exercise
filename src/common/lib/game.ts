@@ -69,6 +69,8 @@ class WGameContext {
       const child = childs[i];
       if (child.type == INodeType.image) {
         this.drawImage(child as StageImageNode);
+      } else if (child.type === INodeType.text) {
+        this.drawText(child as StageTextNode);
       } else {
         this.showPage(child);
       }
@@ -109,7 +111,11 @@ class WGameContext {
       { x: sx, y: sy },
     );
   }
-
+  createText(text: string, x: number, y: number) {
+    // var bg=scg.createImage2(myImg.base,375,547,750);
+    // const mythis.weimobGame.myImages
+    return new StageTextNode(text, { x, y });
+  }
   private drawImage(stageNode: StageImageNode) {
     if (!this.ctx) {
       return;
@@ -152,12 +158,29 @@ class WGameContext {
     // addEvent(mc);
     this.ctx.restore();
   }
+
+  private drawText(child: StageTextNode) {
+    if (!this.ctx) {
+      return;
+    }
+
+    this.ctx.save();
+
+    this.ctx.font = "24px Microsoft Yahei";
+    this.ctx.textAlign = "center";
+    this.ctx.textBaseline='middle'
+    this.ctx.rotate(0)
+    console.log(child.text, child.x, child.y);
+    this.ctx.fillText(child.text, child.x, child.y);
+    this.ctx.restore();
+  }
 }
 
 export default WGameContext;
 export enum INodeType {
   cons,
   image,
+  text,
 }
 
 export class StageNode {
@@ -199,5 +222,14 @@ class StageImageNode extends StageNode {
     this.regY = reg.y ?? 0;
     this.scaleX = scale.x ?? 1;
     this.scaleY = scale.y ?? 1;
+  }
+}
+export class StageTextNode extends StageNode {
+  public text: string;
+  constructor(text: string, pos: { x: number; y: number }) {
+    super(INodeType.text);
+    this.text = text;
+    this.x = pos.x;
+    this.y = pos.y;
   }
 }

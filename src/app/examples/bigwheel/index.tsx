@@ -63,6 +63,11 @@ const BigwheelDemo: FC<Props> = () => {
           src: "https://image-c.weimobwmc.com/ol-6LEtw/eb9f643802a84bf1a27529539a9c34a7.png",
           name: "p7",
         },
+        {
+          src: "https://image-c.weimobwmc.com/ol-6LEtw/a8bdd3d88d824bcc948c15062aff2e2d.png",
+          name: "btn_start",
+          label: "圆盘按钮",
+        },
       ],
       onLoadingHandle: function (e) {
         console.log(e);
