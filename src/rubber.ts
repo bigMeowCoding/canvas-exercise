@@ -15,7 +15,6 @@ const resetBtn = document.getElementById("resetButton");
 resetBtn?.addEventListener(
   "mouseup",
   (e) => {
-    console.log("ss");
     context?.clearRect(0, 0, canvas.width, canvas.height);
     context?.drawImage(drawImageEl, 0, 0);
     e.preventDefault();

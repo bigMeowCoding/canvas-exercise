@@ -25,12 +25,25 @@ class WGameContext {
     const ctx = canvas.getContext("2d");
     canvas.width = width;
     canvas.height = height;
+    console.log("init");
 
     ctx?.scale(1, 1);
     this.ctx = ctx;
     this.canvas = canvas;
     this.stage = this.contain();
-    console.log("initContext222");
+    this.addEventListener()
+  }
+
+  addEventListener() {
+    this.canvas?.addEventListener("touchend", this.getListener);
+  }
+
+  private getListener() {
+    console.log("cc");
+  }
+
+  removeListener() {
+    this.canvas?.removeEventListener("touchend", this.getListener);
   }
   openRepick() {
     this.frameWorkHandle();
@@ -128,7 +141,6 @@ class WGameContext {
     const rx = stageNode.regX * stageNode.scaleX;
     const ry = stageNode.regY * stageNode.scaleY;
     var r = (stageNode.rotate * Math.PI) / 180;
-    console.log(stageNode.x, stageNode.y);
     this.ctx.translate(stageNode.x, stageNode.y);
     this.ctx.rotate(r);
 
@@ -168,9 +180,8 @@ class WGameContext {
 
     this.ctx.font = "24px Microsoft Yahei";
     this.ctx.textAlign = "center";
-    this.ctx.textBaseline='middle'
-    this.ctx.rotate(0)
-    console.log(child.text, child.x, child.y);
+    this.ctx.textBaseline = "middle";
+    this.ctx.rotate(0);
     this.ctx.fillText(child.text, child.x, child.y);
     this.ctx.restore();
   }

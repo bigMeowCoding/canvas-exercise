@@ -23,8 +23,6 @@ class Bighweel {
     pans.y = this.scg.canvas.height / 2;
     const imgWidth = this.weimobGame.myImages.bg2.width;
     const imgHeight = this.weimobGame.myImages.bg2.height;
-    const scaleX = 566 / imgWidth;
-    const scaleY = 566 / imgHeight;
     const bg2 = this.scg.createImage(
       this.weimobGame.myImages.bg2,
       0,
@@ -69,7 +67,9 @@ class Bighweel {
     this.scg.openRepick();
     console.log(stage, "stage");
   }
-
+  public destroy() {
+    this.scg.removeListener();
+  }
   private addBg(stage: StageNode) {
     const bg = this.scg.createImage(
       this.weimobGame.myImages.bg,

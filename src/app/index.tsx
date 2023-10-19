@@ -10,7 +10,7 @@ import BigwheelDemo from "./examples/bigwheel";
 
 const rootEl = document.getElementById("root") as HTMLElement;
 const root = createRoot(rootEl);
-
+console.log('99999')
 root.render(
   <StrictMode>
     {/*<Pattern />*/}

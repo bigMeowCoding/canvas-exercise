@@ -1,14 +1,15 @@
-import React, { useEffect } from "react";
+import React, { memo, useEffect } from "react";
 import { FC } from "react";
-import loadImages from "../../../common/utils/loadImages";
-import getRandomInt from "../../../common/utils/getRandomInt";
+
 import WeimobGame from "../../../common/weimobGame";
-import { useMount } from "ahooks";
+import {useMount, useUnmount} from "ahooks";
 
 interface Props {}
 
 const BigwheelDemo: FC<Props> = () => {
+  console.log('bbbbb')
   useMount(() => {
+    console.log("mount");
     const param = {
       name: "bigwheel",
       id: "canvas",
@@ -79,6 +80,9 @@ const BigwheelDemo: FC<Props> = () => {
       weimobGame.game.init();
     }
   });
+  useUnmount(()=> {
+
+  })
   return <canvas id={"canvas"} />;
 };
 

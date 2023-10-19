@@ -27,6 +27,9 @@ class WeimobGame {
       this.loadMaterial();
     });
   }
+  public destroy() {
+    this.game?.destroy()
+  }
   public getOption() {
     return this.option as IWeimobGame; // TODO
   }

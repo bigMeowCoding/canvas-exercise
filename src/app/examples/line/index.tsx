@@ -6,7 +6,6 @@ interface Props {}
 
 const Line: FC<Props> = () => {
   const { context } = useContext();
-
   function drawOneWidth() {
     if (!context) {
       return;
