@@ -19,8 +19,12 @@ class Bighweel {
     }
     this.addBg(stage);
     const pans = new StageNode(INodeType.cons);
+    // @ts-ignore
     pans.x = this.scg.canvas.width / 2;
+
+    // @ts-ignore
     pans.y = this.scg.canvas.height / 2;
+    //  TODO
     const imgWidth = this.weimobGame.myImages.bg2.width;
     const imgHeight = this.weimobGame.myImages.bg2.height;
     const bg2 = this.scg.createImage(
@@ -62,6 +66,18 @@ class Bighweel {
       268,
       this.weimobGame.myImages["btn_start"].width / 2,
       this.weimobGame.myImages["btn_start"].height / 2,
+    );
+    this.scg.addEventListenerByNode(
+      "touchend",
+      () => {
+        console.log("clickstart====");
+      },
+      btn,
+      {
+        x: 0,
+        y: 0,
+        r: 350 / 4,
+      },
     );
     stage.addChild(btn);
     this.scg.openRepick();

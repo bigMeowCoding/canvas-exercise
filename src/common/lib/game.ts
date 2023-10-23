@@ -1,11 +1,18 @@
-import { INone } from "../../typing/base";
+import { IFunc, INone } from "../../typing/base";
 import WeimobGame from "../weimobGame";
+
+interface IEvent {
+  type: string;
+  listener: IFunc;
+  node: StageNode;
+}
 
 class WGameContext {
   public ctx: CanvasRenderingContext2D | INone;
   public canvas: HTMLCanvasElement | INone;
   public stage: StageNode | INone;
   private weimobGame: WeimobGame;
+  private events: IEvent[] = [];
   constructor(wGame: WeimobGame) {
     this.weimobGame = wGame;
   }
@@ -31,14 +38,41 @@ class WGameContext {
     this.ctx = ctx;
     this.canvas = canvas;
     this.stage = this.contain();
-    this.addEventListener()
+    this.addEventListener();
   }
 
   addEventListener() {
-    this.canvas?.addEventListener("touchend", this.getListener);
+    this.canvas?.addEventListener("touchend", this.getListener.bind(this));
   }
 
-  private getListener() {
+  private getListener(e: TouchEvent) {
+    console.log(e.type, e);
+
+    const bl = this.canvas
+      ? this.canvas?.width / this.canvas.getBoundingClientRect().width
+      : 0;
+    const a = {
+      l: this.canvas
+        ? this.canvas.getBoundingClientRect().left + window.scrollX
+        : 0,
+      t: this.canvas
+        ? this.canvas.getBoundingClientRect().top + window.scrollY
+        : 0,
+    };
+    const _x = (e.changedTouches[0].pageX - a.l) * bl;
+    const _y = (e.changedTouches[0].pageY - a.t) * bl;
+    this.events = this.events.map((event) => {
+      if (e.type === event.type) {
+        event.node._event = {
+          x: _x,
+          y: _y,
+          listener: event.listener,
+        };
+        return event;
+      } else {
+        return event;
+      }
+    });
     console.log("cc");
   }
 
@@ -91,7 +125,26 @@ class WGameContext {
     this.ctx.restore();
   }
   contain() {
-    return new StageNode(INodeType.cons);
+    const stageNode = new StageNode(INodeType.cons);
+
+    return stageNode;
+  }
+  addEventListenerByNode(
+    type: string,
+    cb: IFunc,
+    stageNode: StageNode,
+    option: {
+      x: number;
+      y: number;
+      r: number;
+    },
+  ) {
+    stageNode._eventOption = option;
+    this.events.push({
+      type,
+      listener: cb,
+      node: stageNode,
+    });
   }
   createImage(
     img: HTMLImageElement,
@@ -114,7 +167,7 @@ class WGameContext {
     }
     // var bg=scg.createImage2(myImg.base,375,547,750);
     // const mythis.weimobGame.myImages
-    return new StageImageNode(
+    const imageNode = new StageImageNode(
       img,
       { x, y },
       {
@@ -123,11 +176,33 @@ class WGameContext {
       },
       { x: sx, y: sy },
     );
+    return imageNode;
   }
   createText(text: string, x: number, y: number) {
     // var bg=scg.createImage2(myImg.base,375,547,750);
     // const mythis.weimobGame.myImages
     return new StageTextNode(text, { x, y });
+  }
+  private validateEvent(stageNode: StageImageNode) {
+    if (!this.ctx) {
+      return;
+    }
+
+    const sx = stageNode._eventOption;
+    const _event = stageNode._event;
+    if (!sx || !_event) {
+      return;
+    }
+    this.ctx.beginPath();
+    this.ctx.moveTo(sx.x + sx.r, sx.y);
+    this.ctx.arc(sx.x, sx.y, sx.r, 0, 2 * Math.PI);
+    this.ctx.closePath();
+    if (this.ctx.isPointInPath(_event.x, _event.y)) {
+      _event.listener({ x: _event.x, y: _event.y });
+    }
+
+    this.ctx.restore();
+    stageNode._event = undefined;
   }
   private drawImage(stageNode: StageImageNode) {
     if (!this.ctx) {
@@ -167,7 +242,7 @@ class WGameContext {
     );
     // ctx.drawImage(mc.img, 0, 0, mc.img.width, mc.img.height, -rx, -ry, w, h);
 
-    // addEvent(mc);
+    this.validateEvent(stageNode);
     this.ctx.restore();
   }
 
@@ -199,6 +274,14 @@ export class StageNode {
   private alpha: number;
   public x: number;
   public y: number;
+  public _eventOption:
+    | {
+        x: number;
+        y: number;
+        r: number;
+      }
+    | INone;
+  public _event: { x: number; y: number; listener: IFunc } | INone;
   public rotate: number;
   constructor(public type: INodeType) {
     this.type = type;
