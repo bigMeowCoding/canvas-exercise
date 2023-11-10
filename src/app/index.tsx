@@ -1,4 +1,4 @@
-import React, { StrictMode } from "react";
+import React, { StrictMode, useEffect } from "react";
 import { createRoot } from "react-dom/client";
 import Pattern from "./examples/pattern/pattern";
 import Shadow from "./examples/shadow";
@@ -7,16 +7,18 @@ import GridDemo from "./examples/grid";
 import CreateImage from "./examples/createImage";
 import Bigwheel from "./examples/bigwheel";
 import BigwheelDemo from "./examples/bigwheel";
+import Demo from "./demo";
 
 const rootEl = document.getElementById("root") as HTMLElement;
 const root = createRoot(rootEl);
-console.log('99999')
+
 root.render(
   <StrictMode>
     {/*<Pattern />*/}
     {/*<CreateImage/>*/}
     {/*<Line />*/}
-    <BigwheelDemo />
+    <Demo />
+
     {/*<GridDemo />*/}
   </StrictMode>,
 );

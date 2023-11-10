@@ -6,7 +6,8 @@
   "author": "yijun.zhou",
   "scripts": {
     "build": "vite build",
-    "start": "vite"
+    "start": "vite",
+    "startAjax": "node src/ajax.js"
   },
   "devDependencies": {
     "@types/react": "^18.2.25",
