@@ -1,0 +1,34 @@
+.star {
+  display: inline-block;
+  //background-image: url("./star.svg");
+  //background-position: left center;
+  //margin-top: 600px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  .half {
+  }
+}
+svg {
+  fill: currentColor;
+  //width: 100%;
+  //height: 100%;
+}
+.wrapper {
+  width: 24px;
+  height: 24px;
+  display: inline-block;
+  position: relative;
+  .first {
+    z-index: 1;
+    overflow: hidden;
+  }
+  &.half .first {
+    right:50%
+  }
+  &.selected .first {
+    color: red;
+  }
+}
